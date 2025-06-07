@@ -1,0 +1,93 @@
+{% extends "base.html" %}
+
+{% block title %}Daily Cost Report - AWS Cost Explorer{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-header d-flex justify-content-between align-items-center">
+                <h4 class="mb-0">
+                    <i class="fas fa-calendar-day me-2"></i>
+                    Daily Cost Report (Last {{ days }} days)
+                </h4>
+                <div class="btn-group">
+                    <a href="?days=7" class="btn btn-sm btn-outline-light">7 Days</a>
+                    <a href="?days=30" class="btn btn-sm btn-outline-light">30 Days</a>
+                    <a href="?days=90" class="btn btn-sm btn-outline-light">90 Days</a>
+                </div>
+            </div>
+            <div class="card-body">
+                {% if error %}
+                    <div class="alert alert-danger">
+                        <i class="fas fa-exclamation-triangle me-2"></i>
+                        {{ error }}
+                    </div>
+                {% else %}
+                    <div class="row mb-3">
+                        <div class="col-md-3">
+                            <div class="metric-card">
+                                <div class="metric-value">${{ "%.2f"|format(total_cost) }}</div>
+                                <div class="metric-label">Total Cost ({{ days }} days)</div>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="metric-card" style="background: linear-gradient(135deg, #17a2b8 0%, #138496 100%);">
+                                <div class="metric-value">${{ "%.2f"|format(total_cost / days) }}</div>
+                                <div class="metric-label">Average Daily Cost</div>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="metric-card" style="background: linear-gradient(135deg, #ffc107 0%, #e0a800 100%);">
+                                <div class="metric-value">{{ costs|length }}</div>
+                                <div class="metric-label">Total Days</div>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="metric-card" style="background: linear-gradient(135deg, #6f42c1 0%, #5a32a3 100%);">
+                                <div class="metric-value">${{ "%.2f"|format((costs|map(attribute='cost')|max) if costs else 0) }}</div>
+                                <div class="metric-label">Highest Daily Cost</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="table-responsive">
+                        <table class="table table-striped table-hover">
+                            <thead>
+                                <tr>
+                                    <th><i class="fas fa-calendar me-1"></i>Date</th>
+                                    <th><i class="fas fa-dollar-sign me-1"></i>Cost (USD)</th>
+                                    <th><i class="fas fa-chart-bar me-1"></i>Visual</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% if costs %}
+                                    {% set max_cost = costs|map(attribute='cost')|max %}
+                                    {% for cost in costs %}
+                                    <tr>
+                                        <td>{{ cost.date }}</td>
+                                        <td class="cost-positive">${{ "%.2f"|format(cost.cost) }}</td>
+                                        <td>
+                                            <div class="progress" style="height: 20px;">
+                                                <div class="progress-bar bg-success" 
+                                                     style="width: {{ (cost.cost / max_cost * 100) if max_cost > 0 else 0 }}%">
+                                                    {{ "%.1f"|format((cost.cost / max_cost * 100) if max_cost > 0 else 0) }}%
+                                                </div>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    {% endfor %}
+                                {% else %}
+                                    <tr>
+                                        <td colspan="3" class="text-center text-muted">No cost data available</td>
+                                    </tr>
+                                {% endif %}
+                            </tbody>
+                        </table>
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

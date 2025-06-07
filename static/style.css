@@ -1,0 +1,89 @@
+/* static/style.css */
+body {
+    font-family: sans-serif;
+    margin: 20px;
+    background-color: #f4f4f4;
+    color: #333;
+}
+
+h1, h2 {
+    color: #333;
+    border-bottom: 2px solid #007bff;
+    padding-bottom: 10px;
+}
+
+table {
+    width: 80%;
+    margin: 20px auto;
+    border-collapse: collapse;
+    box-shadow: 0 2px 3px rgba(0,0,0,0.1);
+    background-color: #fff;
+}
+
+th, td {
+    border: 1px solid #ddd;
+    padding: 12px;
+    text-align: left;
+}
+
+th {
+    background-color: #007bff;
+    color: white;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+}
+
+tr:nth-child(even) {
+    background-color: #f9f9f9;
+}
+
+tr:hover {
+    background-color: #f1f1f1;
+}
+
+.container {
+    max-width: 1200px;
+    margin: auto;
+    padding: 20px;
+    background-color: #fff;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    border-radius: 8px;
+}
+
+.chart-container {
+    width: 90%;
+    max-width: 800px;
+    margin: 30px auto;
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+.nav {
+    margin-bottom: 20px;
+    padding: 10px;
+    background-color: #e9ecef;
+    border-radius: 5px;
+}
+
+.nav a {
+    margin-right: 15px;
+    text-decoration: none;
+    color: #007bff;
+    font-weight: bold;
+}
+
+.nav a:hover {
+    text-decoration: underline;
+}
+
+.error {
+    color: red;
+    font-weight: bold;
+    padding: 10px;
+    background-color: #fdd;
+    border: 1px solid red;
+    border-radius: 5px;
+    margin-bottom: 20px;
+}
